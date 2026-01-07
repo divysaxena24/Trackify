@@ -69,7 +69,7 @@ export default async function Home() {
         </div>
       </header>
 
-      <section className="pt-20 pb-20 px-4">
+      <section className="pt-24 pb-20 px-4">
           <div className="max-w-4xl mx-auto text-center">
             <div className="inline-block px-4 py-1 mb-1 text-sm font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 rounded-full border border-blue-200">
               Price Tracking Made Simple
