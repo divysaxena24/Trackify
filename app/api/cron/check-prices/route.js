@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { scrapeProduct } from "@/lib/firecrawl";
+import { sendPriceDropAlert } from "@/lib/email";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -10,7 +11,7 @@ export async function POST(request) {
     try{
         const authHeader = request.headers.get("Authorization");
         const cronSecret = process.env.CRON_SECRET;
-        
+
         if(!cronSecret || authHeader !== `Bearer ${cronSecret}`){
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
@@ -22,7 +23,7 @@ export async function POST(request) {
 
         const { data: products, error: productsError } = await supabase
             .from("products")
-            .select("*");
+            .select("*, user_id, current_price, currency, name, image_url, url");
 
         if(productsError) throw productsError;
 
@@ -54,7 +55,7 @@ export async function POST(request) {
                         .update({
                             current_price: newPrice,
                             ...(productData.productName && { name: productData.productName }),
-                            ...(productData.productImageUrl && { image: productData.productImageUrl }),
+                            ...(productData.productImageUrl && { image_url: productData.productImageUrl }),
                             ...(productData.currencyCode && { currency: productData.currencyCode }),
                             updated_at: new Date().toISOString(),
                         })
@@ -69,21 +70,26 @@ export async function POST(request) {
 
                         // Check if price dropped and send alert if needed
                         if(newPrice < oldPrice) {
-                            // In a real implementation, you might want to send notifications to users
-                            // For now, we'll just increment the counter
-                            const { data: user} = await supabase.auth.admin.getUserById(product.user_id);
+                            // Get user email to send notification
+                            const { data: user, error: userError } = await supabase.auth.admin.getUserById(product.user_id);
 
-                            if(user?.email){
-                                // send email logic would go here
+                            if(user && user.email){
                                 const emailResult = await sendPriceDropAlert(
                                     user.email,
-                                    product,
+                                    {
+                                        ...product,
+                                        name: productData.productName || product.name,
+                                        image_url: productData.productImageUrl || product.image_url,
+                                        currency: productData.currencyCode || product.currency
+                                    },
                                     oldPrice,
                                     newPrice
                                 );
 
                                 if(emailResult.success){
                                     results.alertsSent += 1;
+                                } else {
+                                    console.error(`Failed to send email alert for product ID ${product.id}:`, emailResult.error);
                                 }
                             }
                         }

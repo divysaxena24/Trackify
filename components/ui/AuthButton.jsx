@@ -30,7 +30,7 @@ const AuthButton = ({ user }) => {
                     <LogOut className="w-4 h-4 mr-2" />
                     Log Out
                 </Button>
-                
+
                 <Dialog open={showLogoutConfirm} onOpenChange={setShowLogoutConfirm}>
                     <DialogContent>
                         <DialogHeader>
@@ -59,10 +59,16 @@ const AuthButton = ({ user }) => {
 
   return (
     <>
-        <Button onClick={() => setShowAuthModal(true)} variant="default" size="lg" className= "bg-black hover:bg-gray-800 shadow-sm">
+        <Button
+          onClick={() => setShowAuthModal(true)}
+          variant="default"
+          size="lg"
+          className="bg-black hover:bg-gray-800 shadow-sm"
+          data-testid="login-button"
+        >
               <LogIn className="w-4 h-4 mr-2" />
               Log In
-            </Button>
+        </Button>
         <AuthModal isOpen={showAuthModal} onClose={() => setShowAuthModal(false)} />
     </>
   )

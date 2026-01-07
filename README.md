@@ -73,24 +73,24 @@ await supabase.auth.signInWithOAuth({
 ## 🔄 Core Functionality
 
 ### Add Product
-- User submits product URL  
-- URL is normalized  
-- Product details are scraped  
-- Product is upserted (unique per user + URL)  
-- Price history is stored only if the price changes  
+- User submits product URL
+- URL is normalized
+- Product details are scraped
+- Product is upserted (unique per user + URL)
+- Price history is stored only if the price changes
 
 ### View Products
-- Users see only their tracked products  
+- Users see only their tracked products
 - Each product card shows:
-  - Image  
-  - Name  
-  - Current price  
-  - Tracked since date  
-  - Price history chart  
+  - Image
+  - Name
+  - Current price
+  - Tracked since date
+  - Price history chart
 
 ### Delete Product
-- Secure deletion using `user_id` check  
-- Associated price history removed automatically  
+- Secure deletion using `user_id` check
+- Associated price history removed automatically
 
 ---
 
@@ -133,30 +133,36 @@ cd trackify
 ```
 
 ### Install dependencies
-```
+```bash
 npm install
 ```
+
 ### Environment Variables
 
 Create a .env.local file:
 
-```
- NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+```bash
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key
+NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+FIRECRAWL_API_KEY=your_firecrawl_api_key
+CRON_SECRET=your_cron_secret
+RESEND_API_KEY=your_resend_api_key
+RESEND_FROM_EMAIL=your_resend_from_email
 ```
-
 
 ### Run the app
-```
+```bash
 npm run dev
 ```
 
 ### 🌱 Future Enhancements
-  
-  - 🌍 Support for more e-commerce sites
-  
-  - 💳 Subscription plans (SaaS)
+
+- 🌍 Support for more e-commerce sites
+- 💳 Subscription plans (SaaS)
+- 🧩 Chrome Extension
 
 ### 🙌 Author
 
-  Built by Divya Saxena as a full-stack project showcasing real-world problem solving with Next.js and   Supabase.
+Built by Divya Saxena as a full-stack project showcasing real-world problem solving with Next.js and Supabase.
