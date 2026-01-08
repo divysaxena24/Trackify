@@ -103,9 +103,12 @@ export async function AddProduct(formData) {
       (existingProduct && existingProduct.current_price !== newPrice);
 
     if (shouldAddHistory) {
+      // For updates with price changes, store the old price in history
+      // For new products, store the initial price
+      const priceToStore = isUpdate && existingProduct ? existingProduct.current_price : newPrice;
       await supabase.from("price_history").insert({
         product_id: product.id,
-        price: newPrice,
+        price: priceToStore,
         currency,
         checked_at: new Date().toISOString(),
       });

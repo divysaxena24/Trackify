@@ -93,8 +93,8 @@ export async function POST(request) {
             .from("price_history")
             .insert({
               product_id: product.id,
-              price: newPrice,  // Store the new/current price in history (the price at time of checking)
-              currency: productData.currencyCode || product.currency || 'INR',
+              price: oldPrice,  // Store the old price in history (the previous price before the change)
+              currency: product.currency || 'INR',
               checked_at: new Date().toISOString(),
             });
 

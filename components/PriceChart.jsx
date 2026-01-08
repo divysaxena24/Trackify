@@ -15,12 +15,24 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const PriceChart = ({ priceHistory, currentPrice, currency = 'USD', trackedSince }) => {
-  // Use only the actual price history from the database (no artificial additions)
+  // Include both historical prices and current price in the chart
   let allPrices = [];
 
   if (priceHistory && priceHistory.length > 0) {
     // Use the existing price history from the database
     allPrices = [...priceHistory];
+
+    // Add the current price as the latest data point if it's different from the last historical price
+    const lastHistoricalPrice = allPrices[allPrices.length - 1]?.price;
+    if (lastHistoricalPrice !== currentPrice) {
+      allPrices = [
+        ...allPrices,
+        {
+          price: currentPrice,
+          checked_at: new Date().toISOString(), // Use current timestamp for the current price
+        }
+      ];
+    }
   } else {
     // If no price history exists, just show the current price as a single data point
     allPrices = [
@@ -67,7 +79,7 @@ const PriceChart = ({ priceHistory, currentPrice, currency = 'USD', trackedSince
       },
       title: {
         display: true,
-        text: `Price History (Historical Data Only)`,
+        text: `Price History (Includes Current Price)`,
         font: {
           size: 14,
           weight: 'bold'
