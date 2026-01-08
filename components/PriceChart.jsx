@@ -15,28 +15,14 @@ import {
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const PriceChart = ({ priceHistory, currentPrice, currency = 'USD', trackedSince }) => {
-  // Start with the price history from the database (contains all price changes)
-  let allPrices = [...(priceHistory || [])];
+  // Use only the actual price history from the database (no artificial additions)
+  let allPrices = [];
 
   if (priceHistory && priceHistory.length > 0) {
-    // Use the existing price history
+    // Use the existing price history from the database
     allPrices = [...priceHistory];
-
-    // Check if current price is already in the history (by date)
-    const currentDate = new Date().toISOString().split('T')[0];
-    const hasTodayPrice = priceHistory.some(
-      entry => new Date(entry.checked_at || entry.recorded_at).toISOString().split('T')[0] === currentDate
-    );
-
-    // Add current price if it's not already in the history
-    if (!hasTodayPrice) {
-      allPrices.push({
-        price: currentPrice,
-        checked_at: new Date().toISOString(),
-      });
-    }
   } else {
-    // If no price history exists, create a minimal history with tracked since date and current price
+    // If no price history exists, just show the current price as a single data point
     allPrices = [
       {
         price: currentPrice,
@@ -45,10 +31,8 @@ const PriceChart = ({ priceHistory, currentPrice, currency = 'USD', trackedSince
     ];
   }
 
-  // Don't create artificial data points - let Chart.js handle single data points naturally
-
   // Sort by date to ensure chronological order
-  allPrices.sort((a, b) => new Date(a.recorded_at || a.checked_at) - new Date(b.recorded_at || b.checked_at));
+  allPrices.sort((a, b) => new Date(a.checked_at || a.recorded_at) - new Date(b.checked_at || b.recorded_at));
 
   // Format dates for x-axis
   const labels = allPrices.map(entry =>
@@ -83,7 +67,7 @@ const PriceChart = ({ priceHistory, currentPrice, currency = 'USD', trackedSince
       },
       title: {
         display: true,
-        text: 'Price History',
+        text: `Price History (Historical Data Only)`,
         font: {
           size: 14,
           weight: 'bold'
@@ -169,6 +153,9 @@ const PriceChart = ({ priceHistory, currentPrice, currency = 'USD', trackedSince
   return (
     <div className="w-full h-48">
       <Bar data={data} options={options} />
+      <p className="text-xs text-gray-500 mt-1 text-center">
+        Current price: {currency} {Number(currentPrice).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      </p>
     </div>
   );
 };
