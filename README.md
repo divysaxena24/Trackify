@@ -189,8 +189,7 @@ npm run dev
 
 
 ## Video Walkthrough
-
-Uploading Trackify.mp4…
+https://github.com/user-attachments/assets/85d1d6d6-0194-41e3-957e-795858a275c5
 
 
 ---
