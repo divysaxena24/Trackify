@@ -1,24 +1,22 @@
 # 🚀 Trackify
 
-**Trackify** is a modern price tracking web application that allows users to track product prices in real time, visualize price history, and manage tracked products through a clean, responsive dashboard.
+**Trackify** is a modern price tracking web application that helps users track product prices in real time, visualize price history, and manage their saved products through a clean, responsive dashboard. It also includes a Chrome Extension for quickly adding products directly from e-commerce websites.
 
 ---
 
 ## ✨ Features
 
 - 🔐 Google Authentication (Supabase OAuth)
-- 🔗 Track products by URL (Amazon, Walmart, etc.)
+- 🔗 Track products by URL (Amazon and supported stores)
 - 🧠 Automatic product scraping (name, price, image, currency)
-- 📈 Price history tracking with interactive charts
+- 📈 Interactive price history charts
 - 🗑️ Secure product deletion
 - 🔁 Prevents duplicate tracking per user
 - 📱 Fully responsive UI (mobile & desktop)
-- ⚡ Fast updates using Next.js Server Actions
-- 🔔 Price drop notifications
-- ⏰ Scheduled background price checks
-- 📊 Analytics dashboard
-- 🌍 Support for more e-commerce sites
-- 🧩 Chrome Extension
+- ⚡ Fast server actions using Next.js App Router
+- ⏰ Scheduled background price checks (cron jobs)
+- 📧 Email alerts for price updates
+- 🧩 Chrome Extension for one-click product tracking
 
 ---
 
@@ -30,12 +28,14 @@
 - **Styling:** Tailwind CSS + shadcn/ui
 - **Charts:** Custom Price History Chart
 - **Scraping:** Firecrawl-based product scraper
+- **Emails:** Resend
+- **Scheduling:** Cron jobs (server-side)
 
 ---
 
 ## 🧩 Database Schema
 
-### products
+### `products`
 - id
 - user_id
 - url
@@ -46,7 +46,7 @@
 - created_at
 - updated_at
 
-### price_history
+### `price_history`
 - id
 - product_id
 - price
@@ -70,37 +70,52 @@ await supabase.auth.signInWithOAuth({
 });
 ```
 
+---
+
 ## 🔄 Core Functionality
 
-### Add Product
+### ➕ Add Product
 - User submits product URL
 - URL is normalized
-- Product details are scraped
+- Product details are scraped automatically
 - Product is upserted (unique per user + URL)
 - Price history is stored only if the price changes
 
-### View Products
-- Users see only their tracked products
-- Each product card shows:
+### 👀 View Products
+- Users see only their own tracked products
+- Each product card displays:
   - Image
   - Name
   - Current price
   - Tracked since date
-  - Price history chart
+  - Interactive price history chart
 
-### Delete Product
-- Secure deletion using `user_id` check
-- Associated price history removed automatically
+### 🗑️ Delete Product
+- Secure deletion using `user_id` checks
+- Associated price history is removed automatically
 
 ---
 
 ## 🧪 Security & Data Integrity
 
-- User-based row filtering (`user_id`)
+- Row-level user filtering (`user_id`)
 - Composite unique constraint on `(user_id, url)`
 - Server-side validation
 - Secure delete operations
 - Error-safe database queries
+- Environment-based secrets for cron & APIs
+
+---
+
+## 🧩 Chrome Extension
+
+Trackify includes a Chrome Extension that allows users to:
+
+- Add the current product directly from supported websites
+- Open Trackify with the product URL pre-filled
+- Continue securely using existing Google authentication
+
+> Authentication is handled on the web app to ensure session security.
 
 ---
 
@@ -113,9 +128,20 @@ app/
  │   ├─ ProductGrid.jsx
  │   ├─ PriceChart.jsx
  │   ├─ DeleteButton.jsx
+ ├─ api/
+ │   └─ track/
  ├─ auth/
  ├─ page.jsx
  └─ layout.jsx
+
+trackify-extension/
+  ├── manifest.json
+  ├── popup.html
+  ├── popup.js
+  ├── background.js
+  ├── content.js
+  └── icon.png   
+
 
 utils/
  └─ supabase/
@@ -124,22 +150,24 @@ lib/
  └─ firecrawl.js
 ```
 
+---
+
 ## 🚀 Getting Started
 
-### Clone the repository
+### 📥 Clone the repository
 ```bash
 git clone https://github.com/your-username/trackify.git
 cd trackify
 ```
 
-### Install dependencies
+### 📦 Install dependencies
 ```bash
 npm install
 ```
 
-### Environment Variables
+### 🔑 Environment Variables
 
-Create a .env.local file:
+Create a `.env.local` file:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -152,17 +180,23 @@ RESEND_API_KEY=your_resend_api_key
 RESEND_FROM_EMAIL=your_resend_from_email
 ```
 
-### Run the app
+### ▶ Run the app
 ```bash
 npm run dev
 ```
 
-### 🌱 Future Enhancements
+---
 
-- 🌍 Support for more e-commerce sites
-- 💳 Subscription plans (SaaS)
-- 🧩 Chrome Extension
+## 🌱 Roadmap
 
-### 🙌 Author
+- 🔔 Advanced price-drop alerts
+- 📊 Analytics dashboard (trends, averages)
+- 🌍 Support for more e-commerce websites
+- 🧩 Chrome Extension enhancements
+- 💳 Subscription plans (SaaS features)
 
-Built by Divya Saxena as a full-stack project showcasing real-world problem solving with Next.js and Supabase.
+---
+
+## 🙌 Author
+
+Built by **Divya Saxena** as a full-stack project showcasing real-world problem solving using **Next.js, Supabase, and modern web technologies**.
