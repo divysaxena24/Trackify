@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Trackify Price Tracker",
+  "version": "1.0.0",
+  "description": "Track product prices and receive alerts when prices drop",
+  "permissions": [
+    "storage",
+    "notifications",
+    "activeTab",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "https://trackify-it.vercel.app/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Trackify Price Tracker"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ],
+  "icons": {
+    "16": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  "options_page": "options.html"
+}

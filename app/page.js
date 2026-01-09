@@ -11,6 +11,7 @@ import GetStartedButton from "@/components/GetStartedButton";
 
 
 
+
 export default async function Home() {
 
   const supabase = await createClient(); // Replace with actual user authentication logic

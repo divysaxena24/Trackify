@@ -1,0 +1,6 @@
+// Placeholder for icon.png
+// In a real extension, this would be an actual PNG image file
+// For now, this serves as a placeholder to satisfy the manifest.json requirement
+
+This is a placeholder text file for the extension icon. 
+In a production extension, this would be replaced with an actual 16x16, 48x48, and 128x128 pixel PNG image.

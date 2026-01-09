@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Setup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .container {
+      text-align: center;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 10px 5px;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    .status {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .error {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+    .email-list {
+      margin: 15px 0;
+      text-align: left;
+      padding: 10px;
+      background-color: #f1f5f9;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Trackify Admin Setup</h1>
+    <p>Add admin emails to grant access to Configure Cron Secret</p>
+    
+    <input type="email" id="adminEmailInput" placeholder="Enter admin email">
+    <br>
+    <button id="addEmailBtn">Add Email</button>
+    <button id="saveBtn">Save Admin Emails</button>
+    
+    <div class="email-list">
+      <h3>Current Admin Emails:</h3>
+      <ul id="adminEmailsList"></ul>
+    </div>
+    
+    <div id="status"></div>
+  </div>
+
+  <script>
+    const adminEmailInput = document.getElementById('adminEmailInput');
+    const addEmailBtn = document.getElementById('addEmailBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const adminEmailsList = document.getElementById('adminEmailsList');
+    const statusDiv = document.getElementById('status');
+    
+    let adminEmails = [];
+
+    // Load existing admin emails
+    chrome.storage.sync.get(['adminEmails'], function(result) {
+      adminEmails = result.adminEmails || [];
+      updateEmailList();
+    });
+
+    addEmailBtn.addEventListener('click', function() {
+      const email = adminEmailInput.value.trim();
+      if (email && !adminEmails.includes(email)) {
+        adminEmails.push(email);
+        updateEmailList();
+        adminEmailInput.value = '';
+        showStatus('Email added to admin list', 'success');
+      } else if (adminEmails.includes(email)) {
+        showStatus('Email already in admin list', 'error');
+      } else {
+        showStatus('Please enter a valid email', 'error');
+      }
+    });
+
+    saveBtn.addEventListener('click', function() {
+      chrome.runtime.sendMessage({
+        action: 'setAdminEmails',
+        emails: adminEmails
+      }, function(response) {
+        if (response && response.success) {
+          showStatus('Admin emails saved successfully!', 'success');
+        } else {
+          showStatus('Error saving admin emails', 'error');
+        }
+      });
+    });
+
+    adminEmailInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        addEmailBtn.click();
+      }
+    });
+
+    function updateEmailList() {
+      adminEmailsList.innerHTML = '';
+      if (adminEmails.length === 0) {
+        adminEmailsList.innerHTML = '<li>No admin emails configured</li>';
+      } else {
+        adminEmails.forEach((email, index) => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            ${email}
+            <button onclick="removeEmail(${index})" style="margin-left: 10px; background-color: #ef4444; padding: 2px 6px;">Remove</button>
+          `;
+          adminEmailsList.appendChild(li);
+        });
+      }
+    }
+
+    function removeEmail(index) {
+      adminEmails.splice(index, 1);
+      updateEmailList();
+      showStatus('Email removed from admin list', 'success');
+    }
+
+    function showStatus(message, type) {
+      statusDiv.textContent = message;
+      statusDiv.className = `status ${type}`;
+
+      // Clear status after 3 seconds
+      setTimeout(() => {
+        statusDiv.textContent = '';
+        statusDiv.className = 'status';
+      }, 3000);
+    }
+
+    // Make removeEmail function available globally for the onclick handler
+    window.removeEmail = removeEmail;
+  </script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Trackify Extension Options</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      min-width: 400px;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    h1 {
+      color: #3b82f6;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    button:hover {
+      background-color: #2563eb;
+    }
+    .status {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .success {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    .error {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Trackify Options</h1>
+    <form id="optionsForm">
+      <div class="form-group">
+        <label for="cronSecret">Cron Secret:</label>
+        <input type="password" id="cronSecret" placeholder="Enter your cron secret">
+      </div>
+      <button type="submit">Save</button>
+    </form>
+    <div id="status"></div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

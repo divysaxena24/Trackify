@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trackify Price Tracker</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 12px;
+        min-width: 320px;
+        font-family: "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+      }
+
+      .container {
+        padding: 16px;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      header h1 {
+        color: #2563eb;
+        margin: 0;
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+      }
+
+      header p {
+        color: #64748b;
+        margin: 6px 0 0 0;
+        font-size: 14px;
+      }
+
+      .login-section,
+      .main-content {
+        margin-bottom: 16px;
+      }
+
+      h2,
+      h3 {
+        color: #0f172a;
+        margin-top: 0;
+        margin-bottom: 12px;
+        font-size: 17px;
+        font-weight: 600;
+      }
+
+      h3 {
+        font-size: 15px;
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 6px;
+      }
+
+      input {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 8px;
+        border: 1px solid #e5e7eb;
+        font-size: 13px;
+        outline: none;
+        margin-bottom: 10px;
+      }
+
+      input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+      }
+
+      button {
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.2s ease;
+        margin-bottom: 8px;
+      }
+
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 12px rgba(37, 99, 235, 0.25);
+      }
+
+      .google-login-btn {
+        background: linear-gradient(135deg, #db4437, #c23321);
+      }
+
+      .google-login-btn:hover {
+        box-shadow: 0 6px 12px rgba(219, 68, 55, 0.25);
+      }
+
+      .user-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+        padding: 10px 0;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .user-info #userName {
+        font-weight: 600;
+        color: #0f172a;
+        font-size: 14px;
+      }
+
+      #logoutBtn {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        width: auto;
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+
+      #logoutBtn:hover {
+        box-shadow: 0 6px 12px rgba(239, 68, 68, 0.25);
+      }
+
+      .add-product-section {
+        margin-bottom: 20px;
+      }
+
+      .tracked-products {
+        max-height: 360px;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+
+      .product-item {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 10px;
+        transition: all 0.2s ease;
+      }
+
+      .product-item:hover {
+        border-color: #2563eb;
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.08);
+      }
+
+      .product-item h4 {
+        margin: 0 0 6px 0;
+        font-size: 14px;
+        color: #0f172a;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .product-price {
+        font-weight: 700;
+        color: #059669;
+        margin-bottom: 6px;
+        font-size: 15px;
+      }
+
+      .product-url {
+        font-size: 12px;
+        color: #64748b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 8px;
+      }
+
+      .delete-btn {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        width: auto;
+        padding: 4px 10px;
+        font-size: 11px;
+        border-radius: 6px;
+      }
+
+      .delete-btn:hover {
+        box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+      }
+
+      .status-message {
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+        margin-top: 10px;
+        display: none;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .status-message.success {
+        background-color: #ecfdf5;
+        color: #047857;
+        border: 1px solid #a7f3d0;
+        display: block;
+      }
+
+      .status-message.error {
+        background-color: #fef2f2;
+        color: #b91c1c;
+        border: 1px solid #fecaca;
+        display: block;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 20px;
+        color: #64748b;
+        font-size: 13px;
+      }
+
+      .options-link {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .options-link a {
+        color: #2563eb;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .options-link a:hover {
+        text-decoration: underline;
+      }
+    </style>
+
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Trackify</h1>
+      <p>Price Tracker Extension</p>
+    </header>
+
+    <div class="login-section" id="loginSection">
+      <h2>Login to Trackify</h2>
+      <button id="googleLoginBtn" class="google-login-btn">Login with Google</button>
+    </div>
+
+    <div class="main-content" id="mainContent" style="display: none;">
+      <div class="user-info">
+        <span id="userName">Welcome!</span>
+        <button id="logoutBtn">Logout</button>
+      </div>
+
+      <div class="add-product-section">
+        <h3>Add Product to Track</h3>
+        <input type="url" id="productUrlInput" placeholder="Paste product URL here..." />
+        <button id="addProductBtn">Track Price</button>
+      </div>
+
+      <div class="tracked-products">
+        <h3>Your Tracked Products</h3>
+        <div id="productsList">
+          <!-- Products will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <div class="options-link" id="adminOptionsContainer" style="display: none;">
+      <a href="#" id="optionsLink">Configure Cron Secret</a>
+    </div>
+
+    <div class="status-message" id="statusMessage"></div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
