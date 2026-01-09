@@ -187,6 +187,24 @@ npm run dev
 
 ---
 
+
+## Video Walkthrough
+
+Uploading Trackify.mp4…
+
+
+---
+
+
+## Screenshots
+
+![tcc](https://github.com/user-attachments/assets/97980a37-3934-4415-b2fe-09d606c71c4d)
+![tc](https://github.com/user-attachments/assets/61fbc835-ff06-4367-99bd-c27ba35efd06)
+
+
+---
+
+
 ## 🌱 Roadmap
 
 - 🔔 Advanced price-drop alerts
