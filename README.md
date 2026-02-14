@@ -24,19 +24,20 @@
 
 ```mermaid
 graph TD
-    A[Start: Landing Page] --> B{Logged In?}
-    B -- No --> C[Google OAuth Login]
-    C --> D[Dashboard]
+    A["Start: Landing Page"] --> B{"Logged In?"}
+    B -- No --> C["Google OAuth Login"]
+    C --> D["Dashboard"]
     B -- Yes --> D
-    D --> E[Enter Product URL / Use Extension]
-    E --> F[Scrape Product Data]
-    F --> G[Add Product to Database]
-    G --> H[Display on Dashboard]
-    H --> I[Price Monitoring (Cron)]
-    I --> J{Price Changed?}
-    J -- Yes --> K[Send Email Alert]
-    K --> L[Update Price History]
-    J -- No --> M[Wait for Next Check]
+    D --> E["Enter Product URL / Use Extension"]
+    F["Scrape Product Data"]
+    E --> F
+    F --> G["Add Product to Database"]
+    G --> H["Display on Dashboard"]
+    H --> I["Price Monitoring (Cron)"]
+    I --> J{"Price Changed?"}
+    J -- Yes --> K["Send Email Alert"]
+    K --> L["Update Price History"]
+    J -- No --> M["Wait for Next Check"]
     L --> M
 ```
 
@@ -47,24 +48,24 @@ graph TD
 ```mermaid
 graph LR
     subgraph Client
-        Extension[Chrome Extension]
-        WebApp[Next.js App]
+        Extension["Chrome Extension"]
+        WebApp["Next.js App"]
     end
     
     subgraph Backend
-        Actions[Server Actions]
-        API[API Routes]
-        Scraper[Firecrawl Scraper]
+        Actions["Server Actions"]
+        API["API Routes"]
+        Scraper["Firecrawl Scraper"]
     end
 
-    subgraph Database/Auth
-        SupabaseAuth[Supabase Auth]
-        SupabaseDB[(PostgreSQL DB)]
+    subgraph "Database / Auth"
+        SupabaseAuth["Supabase Auth"]
+        SupabaseDB[("PostgreSQL DB")]
     end
 
     subgraph Services
-        Resend[Resend Email Service]
-        Cron[Cron Scheduler]
+        Resend["Resend Email Service"]
+        Cron["Cron Scheduler"]
     end
 
     Extension --> API
