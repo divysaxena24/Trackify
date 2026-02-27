@@ -22,7 +22,11 @@
 
 ## 🎥 Demo
 
-https://github.com/divysaxena24/Trackify/blob/main/public/Trackify.mp4
+
+
+https://github.com/user-attachments/assets/0b2a8985-7c79-4a75-b295-fdc6cf4a8cd1
+
+
 
 ---
 
