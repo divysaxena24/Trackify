@@ -16,18 +16,18 @@ export default async function Home() {
 
   const supabase = await createClient(); // Replace with actual user authentication logic
 
-  const{
-    data: { user}
+  const {
+    data: { user }
   } = await supabase.auth.getUser();
 
   const products = user
     ? (
-        await supabase
-          .from("products")
-          .select("*")
-          .eq("user_id", user.id)
-          .order("created_at", { ascending: false })
-      ).data || []
+      await supabase
+        .from("products")
+        .select("*")
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: false })
+    ).data || []
     : [];
 
   const FEATURES = [
@@ -71,26 +71,26 @@ export default async function Home() {
       </header>
 
       <section className="pt-24 pb-20 px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="inline-block px-4 py-1 mb-1 text-sm font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 rounded-full border border-blue-200">
-              Price Tracking Made Simple
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="inline-block px-4 py-1 mb-1 text-sm font-medium bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800 rounded-full border border-blue-200">
+            Price Tracking Made Simple
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
+            Welcome to <span className="text-blue-600">Trackify</span>
+          </h1>
+          <p className="text-lg md:text-xl text-gray-700 mb-4 max-w-2xl mx-auto">
+            Track product prices from any E-Commerce sites in real time and get alerts when the price drops.
+          </p>
+
+          {user && <AddProductForm user={user} />}
+
+          {!user && (
+            <div className="mt-5">
+              <GetStartedButton />
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-4 leading-tight">
-              Welcome to <span className="text-blue-600">Trackify</span>
-            </h1>
-            <p className="text-lg md:text-xl text-gray-700 mb-4 max-w-2xl mx-auto">
-              Track product prices from any E-Commerce sites in real time and get alerts when the price drops.
-            </p>
+          )}
 
-            {user && <AddProductForm user={user} />}
-
-            {!user && (
-              <div className="mt-5">
-                <GetStartedButton />
-              </div>
-            )}
-
-            {!user && (
+          {!user && (
             <div className="mt-12">
               <div className="mb-12">
                 <h2 className="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-2">Key Features</h2>
@@ -110,41 +110,41 @@ export default async function Home() {
                 ))}
               </div>
             </div>
-            )}
+          )}
+        </div>
+      </section>
+
+      {/* here we will render all products if length is not 0 */}
+      {user && products.length > 0 && (
+        <section className="max-w-5xl mx-auto px-4 pb-20">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+            Your Tracked Products
+          </h2>
+
+          <div className="bg-white rounded-xl border-2 border-dashed border-gray-300 p-6">
+            <ProductGrid initialProducts={products} user={user} />
           </div>
         </section>
-
-        {/* here we will render all products if length is not 0 */}
-        {user && products.length > 0 && (
-          <section className="max-w-5xl mx-auto px-4 pb-20">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
-              Your Tracked Products
-            </h2>
-
-            <div className="bg-white rounded-xl border-2 border-dashed border-gray-300 p-6">
-              <ProductGrid initialProducts={products} user={user} />
-            </div>
-          </section>
-        )}
+      )}
 
 
-         {user && products.length === 0 && (
-            <section className="max-w-2xl mx-auto px-4 pb-20 text-center">
-              <div className="bg-white rounded-xl border-2 border-dashed border-gray-300 p-12">
+      {user && products.length === 0 && (
+        <section className="max-w-2xl mx-auto px-4 pb-20 text-center">
+          <div className="bg-white rounded-xl border-2 border-dashed border-gray-300 p-12">
 
-                <TrendingDown className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+            <TrendingDown className="w-16 h-16 text-gray-400 mx-auto mb-4" />
 
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  No products yet
-                </h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              No products yet
+            </h3>
 
-                <p className="text-gray-600">
-                  Add your first product above to start tracking prices!
-                </p>
+            <p className="text-gray-600">
+              Add your first product above to start tracking prices!
+            </p>
 
-              </div>
-            </section>
-          )}
+          </div>
+        </section>
+      )}
 
     </main>
   );
