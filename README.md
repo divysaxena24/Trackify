@@ -22,7 +22,7 @@
 
 ## 🎥 Demo
 
-<video src="./public/Trackify.mp4" controls="controls" style="max-width: 100%;">
+<video src="https://github.com/divysaxena24/Trackify/raw/main/public/Trackify.mp4" controls="controls" style="max-width: 100%;">
   Your browser does not support the video tag.
 </video>
 
