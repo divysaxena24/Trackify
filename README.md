@@ -1,26 +1,26 @@
-# 🚀 Trackify
+# Trackify
 
 **Trackify** is a modern price tracking web application that helps users track product prices in real time, visualize price history, and manage their saved products through a clean, responsive dashboard. It also includes a Chrome Extension for quickly adding products directly from e-commerce websites.
 
 ---
 
-## ✨ Features
+## Features
 
-- 🔐 Google Authentication (Supabase OAuth)
-- 🔗 Track products by URL (Amazon and supported stores)
-- 🧠 Automatic product scraping (name, price, image, currency)
-- 📈 Interactive price history charts
-- 🗑️ Secure product deletion
-- 🔁 Prevents duplicate tracking per user
-- 📱 Fully responsive UI (mobile & desktop)
-- ⚡ Fast server actions using Next.js App Router
-- ⏰ Scheduled background price checks (cron jobs)
-- 📧 Email alerts for price updates
-- 🧩 Chrome Extension for one-click product tracking
+- Google Authentication (Supabase OAuth)
+- Track products by URL (Amazon and supported stores)
+- Automatic product scraping (name, price, image, currency)
+- Interactive price history charts
+- Secure product deletion
+- Prevents duplicate tracking per user
+- Fully responsive UI (mobile & desktop)
+- Fast server actions using Next.js App Router
+- Scheduled background price checks (cron jobs)
+- Email alerts for price updates
+- Chrome Extension for one-click product tracking
 
 ---
 
-## 🎥 Demo
+## Demo
 
 
 
@@ -30,7 +30,7 @@ https://github.com/user-attachments/assets/0b2a8985-7c79-4a75-b295-fdc6cf4a8cd1
 
 ---
 
-## 🗺️ User Flow
+## User Flow
 
 ```mermaid
 graph TD
@@ -53,7 +53,7 @@ graph TD
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```mermaid
 graph LR
@@ -91,7 +91,7 @@ graph LR
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend:** Next.js (App Router)
 - **Backend:** Next.js Server Actions
@@ -104,7 +104,7 @@ graph LR
 
 ---
 
-## 🧩 Database Schema
+## Database Schema
 
 ### `products`
 - id
@@ -128,7 +128,7 @@ graph LR
 
 ---
 
-## 🔐 Authentication
+## Authentication
 
 Google OAuth using Supabase:
 
@@ -143,16 +143,16 @@ await supabase.auth.signInWithOAuth({
 
 ---
 
-## 🔄 Core Functionality
+## Core Functionality
 
-### ➕ Add Product
+### Add Product
 - User submits product URL
 - URL is normalized
 - Product details are scraped automatically
 - Product is upserted (unique per user + URL)
 - Price history is stored only if the price changes
 
-### 👀 View Products
+### View Products
 - Users see only their own tracked products
 - Each product card displays:
   - Image
@@ -161,13 +161,13 @@ await supabase.auth.signInWithOAuth({
   - Tracked since date
   - Interactive price history chart
 
-### 🗑️ Delete Product
+### Delete Product
 - Secure deletion using `user_id` checks
 - Associated price history is removed automatically
 
 ---
 
-## 🧪 Security & Data Integrity
+## Security & Data Integrity
 
 - Row-level user filtering (`user_id`)
 - Composite unique constraint on `(user_id, url)`
@@ -178,7 +178,7 @@ await supabase.auth.signInWithOAuth({
 
 ---
 
-## 🧩 Chrome Extension
+## Chrome Extension
 
 Trackify includes a Chrome Extension that allows users to:
 
@@ -190,7 +190,7 @@ Trackify includes a Chrome Extension that allows users to:
 
 ---
 
-## 🧱 Project Structure
+## Project Structure
 
 ```txt
 app/
@@ -223,20 +223,20 @@ lib/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
-### 📥 Clone the repository
+### Clone the repository
 ```bash
 git clone https://github.com/your-username/trackify.git
 cd trackify
 ```
 
-### 📦 Install dependencies
+### Install dependencies
 ```bash
 npm install
 ```
 
-### 🔑 Environment Variables
+### Environment Variables
 
 Create a `.env.local` file:
 
@@ -251,23 +251,23 @@ RESEND_API_KEY=your_resend_api_key
 RESEND_FROM_EMAIL=your_resend_from_email
 ```
 
-### ▶ Run the app
+### Run the app
 ```bash
 npm run dev
 ```
 
 ---
 
-## 🌱 Roadmap
+## Roadmap
 
-- 🔔 Advanced price-drop alerts
-- 📊 Analytics dashboard (trends, averages)
-- 🌍 Support for more e-commerce websites
-- 🧩 Chrome Extension enhancements
-- 💳 Subscription plans (SaaS features)
+- Advanced price-drop alerts
+- Analytics dashboard (trends, averages)
+- Support for more e-commerce websites
+- Chrome Extension enhancements
+- Subscription plans (SaaS features)
 
 ---
 
-## 🙌 Author
+## Author
 
 Built by **Divya Saxena** as a full-stack project showcasing real-world problem solving using **Next.js, Supabase, and modern web technologies**.
